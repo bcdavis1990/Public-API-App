@@ -1,19 +1,39 @@
-//global variables
+/**
+ * Going for a Meets Expectations Grade. I started on the search bar functionality for the "Exceeds" portion and will continue to work on that with my own time.
+ */
+
+/**
+ * Global Variables
+ */
 const peopleURL =
   "https://randomuser.me/api/?results=12&inc=name,picture,email,location,phone,dob&nat=us";
 const gallery = document.getElementById("gallery");
 
-// generic fetch function
+/**
+ * Functions
+ */
+
+// Generic Fetch Function
 fetch(peopleURL)
+  .then(checkStatus)
   .then((response) => response.json())
   .then((data) => {
     console.log(data.results);
     generateEmployees(data.results);
     generateModal(data.results);
   })
-  .catch((err) => console.error("problems fetching data"));
+  .catch((error) => console.log("problems fetching data"));
 
-//generate employee cards
+//Function that checks to make sure the request went through successfully. **Change the .catch error to display to the page eventually
+function checkStatus(response) {
+  if (response.ok) {
+    return Promise.resolve(response);
+  } else {
+    return Promise.reject(new Error(response.statusText));
+  }
+}
+
+//Function that generates the 12 returned employees from the data fetched
 function generateEmployees(data) {
   gallery.insertAdjacentHTML(
     "beforeend",
@@ -33,7 +53,7 @@ function generateEmployees(data) {
   );
 }
 
-//generate the modal
+//Function that grabs a user that is selected and creates and index for the data to be inserted in the modal
 function generateModal(data) {
   const elements = document.getElementsByClassName("card");
   console.log(elements);
@@ -46,7 +66,7 @@ function generateModal(data) {
   }
 }
 
-//layout the modal
+//Function that creates and displays the modal to the page
 function createModal(data) {
   let modal = `<div class="modal-container">
     <div class="modal">
@@ -73,4 +93,35 @@ function createModal(data) {
     </div>`;
 
   gallery.insertAdjacentHTML("beforeend", modal);
+
+  /**
+   * Closing out of the modal
+   */
+  const xButton = document.querySelector(".modal-close-btn");
+  const modalContainer = document.querySelector(".modal-container");
+
+  xButton.addEventListener("click", () => {
+    modalContainer.remove;
+  });
+}
+
+/**
+ * Extra Credit
+ * Going to work on this later
+ */
+
+//Search Bar
+const search = document.querySelector(".search-container");
+const searchHTML = `<form action="#" method="get">
+<input type="search" id="search-input" class="search-input" placeholder="Search...">
+<input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+</form>`;
+search.insertAdjacentHTML("beforeend", searchHTML);
+const searchBar = document.getElementById("search-input");
+searchBar.addEventListener("input", searchFunction);
+
+function searchFunction(event) {
+  const searchName = event.target.value.toLowerCase(); //targets what is being typed into the search bar
+  const employeeName = document.querySelectorAll(".card-name"); //targets all 12 employee cards
+  console.log(employeeName.length); //returns 12
 }
