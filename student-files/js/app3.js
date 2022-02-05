@@ -77,7 +77,9 @@ function createModal(data) {
     data.name.last
   }</h3>
             <p class="modal-text">${data.email}</p>
-            <p class="modal-text cap">${data.location.city}</p>
+            <p class="modal-text cap">${data.location.city}, ${
+    data.location.state
+  }</p>
             <hr>
             <p class="modal-text">${data.phone}</p>
             <p class="modal-text">${data.location.street.number} ${
@@ -97,11 +99,11 @@ function createModal(data) {
   /**
    * Closing out of the modal
    */
-  const xButton = document.querySelector(".modal-close-btn");
+  const xButton = document.getElementById("modal-close-btn");
   const modalContainer = document.querySelector(".modal-container");
 
   xButton.addEventListener("click", () => {
-    modalContainer.remove;
+    modalContainer.remove(modalContainer);
   });
 }
 
